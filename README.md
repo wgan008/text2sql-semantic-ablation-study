@@ -16,6 +16,8 @@ Each question in a BIRD subset is answered under five context configurations:
 
 Scoring uses execution accuracy with a strict result-set comparator (multiset semantics, `ORDER BY`-aware, NULL and float handling, column-permutation tolerant). A subset is also re-checked on perturbed databases to catch coincidentally correct SQL.
 
+See [FINDINGS.md](FINDINGS.md) for results from a 100-question run.
+
 ## Repository layout
 
 ```

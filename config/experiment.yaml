@@ -1,0 +1,14 @@
+# Model name: check the current model list in AI Studio / Vertex AI before running.
+model: gemini-2.5-flash
+temperature: 0.0
+samples_per_question: 1        # raise to 3+ for the confidence/self-consistency analysis
+
+data:
+  bird_dir: data/bird_dev
+  questions_file: dev.json      # BIRD dev questions
+  db_ids: []                    # empty = all; e.g. [california_schools, financial]
+  max_questions: 100
+
+configs: [C0, C1, C2, C3, C4]
+
+output_dir: results

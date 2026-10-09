@@ -15,6 +15,7 @@ data/*
 !data/.gitkeep
 results/*
 !results/.gitkeep
+!results/FINDINGS.md
 
 # OS / editor
 .DS_Store

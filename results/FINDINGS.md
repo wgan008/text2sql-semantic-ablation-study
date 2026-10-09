@@ -2,6 +2,14 @@
 
 **Run:** `results/20261009-104158/results.jsonl` · BIRD dev subset, **100 questions** · model `gemini-2.5-flash` · temperature 0.0 · 1 sample/question
 
+## TL;DR
+
+- **Human-curated schema descriptions beat auto-generated ones, decisively.** C1 < C0 < C2 — the model's own guesses about column semantics were worse than no description at all, and produced the only outright SQL errors in the whole run.
+- **Business/domain evidence is the single highest-leverage addition.** C2 → C3 added +11pp overall, the largest jump of any step, concentrated in the "simple" tier (56% → 75%).
+- **Few-shot verified queries (C4) did not help on top of C3** — accuracy fell slightly (57% → 53%). With only 3 retrieved examples selected by lexical token overlap, the retrieval may be too noisy to add signal once evidence is already present; worth re-testing with better retrieval or more examples.
+- **The auto-description regression isn't universal** — it shows up on `california_schools` but not `financial`, so it may be schema-shape-dependent (e.g. near-duplicate column concepts across tables) rather than a blanket effect.
+- **More context is not uniformly safe.** The challenging-tier result below is a small-sample signal that extra context can occasionally crowd out a correct raw-schema answer — not just fail to help.
+
 ## Question
 
 How much does each layer of semantic context contribute to Text-to-SQL execution accuracy, and is an LLM's own auto-generated schema documentation a substitute for human-curated context?
@@ -61,14 +69,6 @@ How much does each layer of semantic context contribute to Text-to-SQL execution
 - Context helps most on "simple" questions (47% → 75% from C0 to C3) and barely moves "moderate" questions.
 - On "challenging" questions, only C0 got anything right (1 of 6, raw schema only); every context-enriched config (C1–C4) scored 0%.
 - That one challenging question solved by C0 was *not* solved by any of C1–C4 — a small-sample (n=6) signal, but worth re-checking at scale rather than assuming more context is always safe.
-
-## Takeaways
-
-- **Human-curated schema descriptions beat auto-generated ones, decisively.** C1 < C0 < C2 — the model's own guesses about column semantics were worse than no description at all, and produced the only outright SQL errors in the whole run.
-- **Business/domain evidence is the single highest-leverage addition.** C2 → C3 added +11pp overall, the largest jump of any step, concentrated in the "simple" tier (56% → 75%).
-- **Few-shot verified queries (C4) did not help on top of C3** — accuracy fell slightly (57% → 53%). With only 3 retrieved examples selected by lexical token overlap, the retrieval may be too noisy to add signal once evidence is already present; worth re-testing with better retrieval or more examples.
-- **The auto-description regression isn't universal** — it shows up on `california_schools` but not `financial`, so it may be schema-shape-dependent (e.g. near-duplicate column concepts across tables) rather than a blanket effect.
-- **More context is not uniformly safe.** The challenging-tier result above is a small-sample signal that extra context can occasionally crowd out a correct raw-schema answer — not just fail to help.
 
 ## Caveats
 
